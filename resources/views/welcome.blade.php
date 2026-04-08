@@ -170,49 +170,123 @@
     <div class="ambient-glow bottom-[10%] right-[20%]"></div>
 
     <div class="content">
-        <nav class="fixed top-0 left-0 right-0 z-[100] p-8 lg:px-24 flex justify-between items-center mix-blend-difference">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center font-black text-black italic text-lg">P</div>
-                <div class="text-[9px] font-black uppercase tracking-[0.4em]">Prinz<br><span class="opacity-40">Archive</span></div>
+        <nav class="fixed top-0 left-0 right-0 z-[100] p-8 lg:px-24 flex justify-between items-center mix-blend-difference group/nav">
+            {{-- Branding: Prinz Library --}}
+            <div class="flex items-center gap-5 relative group/logo">
+                {{-- Garis dekoratif melayang --}}
+                <span class="absolute -top-6 left-0 text-[5px] font-bold text-white/10 tracking-[0.8em] uppercase opacity-0 group-hover/logo:opacity-100 transition-all duration-700">Personal Archive</span>
+                <span class="absolute -top-4 left-0 w-0 h-[1px] bg-white transition-all duration-700 group-hover/logo:w-full"></span>
+
+                <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center font-black text-black italic text-lg transition-all duration-700 group-hover/logo:rotate-[-10deg] group-hover/logo:shadow-[0_0_20px_rgba(255,255,255,0.3)]">P</div>
+
+                <div class="relative">
+                    <div class="text-[9px] font-black uppercase tracking-[0.4em] leading-tight">
+                        Prinz<br>
+                        <span class="text-white/40 group-hover/logo:text-indigo-400 transition-colors duration-500">Library</span>
+                    </div>
+                    <span class="absolute -bottom-4 left-0 text-[5px] font-bold text-white/10 uppercase tracking-[0.5em] whitespace-nowrap opacity-0 group-hover/logo:opacity-100 transition-all duration-700 group-hover/logo:bottom-[-3px]">Est. MMXXVI — MALANG</span>
+                </div>
             </div>
 
-            <div class="flex gap-12 items-center">
-                <div class="hidden md:flex gap-8 text-[9px] font-black uppercase tracking-[0.3em] text-white/50">
-                    <a href="#about" class="hover:text-white transition-colors">Visi Kita</a>
-                    <a href="#explore" class="hover:text-white transition-colors">Arsip</a>
+            {{-- Menu & Action --}}
+            <div class="flex gap-14 items-center relative">
+                {{-- Label tipis di belakang menu --}}
+                <span class="absolute -left-20 text-[6px] font-black text-white/5 uppercase tracking-[1em] rotate-90 hidden xl:block">Menu</span>
+
+                <div class="hidden md:flex gap-10 items-center">
+                    <div class="flex flex-col items-center group/link">
+                        <span class="text-[5px] font-black text-white/0 group-hover/link:text-indigo-400/50 uppercase tracking-[0.5em] mb-1 transition-all duration-500 translate-y-1 group-hover/link:translate-y-0 italic">Tentang Kami</span>
+                        <a href="#about" class="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 hover:text-white transition-all relative">
+                            Visi Kita
+                            <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 transition-all duration-500 group-hover/link:w-full"></span>
+                        </a>
+                    </div>
+
+                    <div class="w-1 h-1 rounded-full bg-white/10 group-hover/nav:bg-indigo-500 transition-colors duration-1000 animate-pulse"></div>
+
+                    <div class="flex flex-col items-center group/link">
+                        <span class="text-[5px] font-black text-white/0 group-hover/link:text-indigo-400/50 uppercase tracking-[0.5em] mb-1 transition-all duration-500 translate-y-1 group-hover/link:translate-y-0 italic">Eksplorasi</span>
+                        <a href="#explore" class="text-[9px] font-black uppercase tracking-[0.3em] text-white/50 hover:text-white transition-all relative">
+                            Koleksi
+                            <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-indigo-500 transition-all duration-500 group-hover/link:w-full"></span>
+                        </a>
+                    </div>
                 </div>
-                @auth
-                <a href="{{ route('beranda') }}" class="px-6 py-2 bg-indigo-500 rounded-full text-[9px] font-black uppercase tracking-widest text-white shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:scale-110 transition-all">Buka Konsol</a>
-                @else
-                <a href="{{ route('login') }}" class="px-6 py-2 border border-white/20 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">Masuk Yuk</a>
-                @endauth
-            </div>
+
+                {{-- Action Button --}}
+                <div class="relative group/btn pl-6 border-l border-white/5">
+                    @auth
+                    {{-- Tampilan saat sudah Login --}}
+                    <span class="absolute -top-7 right-0 text-[5px] font-black text-indigo-400 uppercase tracking-[0.5em] opacity-0 group-hover/btn:opacity-100 group-hover/btn:-top-5 transition-all duration-700 whitespace-nowrap">Akses Ruang Baca</span>
+
+                    <a href="{{ route('beranda') }}" class="px-8 py-2.5 bg-white text-black rounded-full text-[9px] font-black uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:bg-indigo-500 hover:text-white hover:scale-105 transition-all duration-700 block relative overflow-hidden">
+                        <span class="relative z-10">Buka Ruang</span>
+                    </a>
+                    @else
+                    {{-- Tampilan saat Belum Login (Tombol Ke Login) --}}
+                    <span class="absolute -top-7 right-0 text-[5px] font-black text-white/20 uppercase tracking-[0.5em] opacity-0 group-hover/btn:opacity-100 group-hover/btn:-top-5 transition-all duration-700 whitespace-nowrap italic">Selamat Datang kembali</span>
+
+                    <a href="{{ route('login') }}" class="px-8 py-2.5 border border-white/20 text-white rounded-full text-[9px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black hover:border-white transition-all duration-700 block relative overflow-hidden group/loginbtn">
+                        {{-- Efek titik kecil saat hover --}}
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 w-1 h-1 bg-indigo-500 rounded-full opacity-0 group-hover/loginbtn:opacity-100 transition-all duration-500"></span>
+
+                        <span class="relative z-10">Masuk Yuk</span>
+                    </a>
+                    @endauth
+                </div>
         </nav>
 
-        <section class="hero-section px-10 relative">
-            <div class="relative z-10 max-w-5xl">
-                <div class="flex flex-col items-center gap-6 mb-8 reveal-up">
+        <section class="hero-section px-10 relative min-h-screen flex items-center justify-center overflow-hidden">
+            {{-- Decorative Background Text --}}
+            <div class="absolute top-1/2 left-10 -translate-y-1/2 hidden xl:block opacity-10">
+                <p class="text-[7px] font-black vertical-rl rotate-180 uppercase tracking-[1.5em] text-white/20">Creative Space — Sudut Baca — Personal Archive</p>
+            </div>
+
+            <div class="relative z-10 max-w-5xl text-center">
+                <div class="flex flex-col items-center gap-6 mb-12 reveal-up group/sub">
                     <div class="flex items-center gap-4">
-                        <span class="w-8 h-[1px] bg-indigo-500"></span>
-                        <span class="text-[9px] font-black uppercase tracking-[0.5em] text-indigo-400">Pusat Kecerdasan Digital</span>
-                        <span class="w-8 h-[1px] bg-indigo-500"></span>
+                        <span class="w-12 h-[1px] bg-white/10 group-hover/sub:w-20 group-hover/sub:bg-indigo-500 transition-all duration-1000"></span>
+                        <div class="flex flex-col items-center">
+                            <span class="text-[8px] font-bold uppercase tracking-[0.8em] text-white/20 mb-2">Since MMXXVI</span>
+                            <span class="text-[10px] font-black uppercase tracking-[0.6em] text-indigo-400 group-hover/sub:text-white transition-colors duration-700">Pusat Kecerdasan Digital</span>
+                        </div>
+                        <span class="w-12 h-[1px] bg-white/10 group-hover/sub:w-20 group-hover/sub:bg-indigo-500 transition-all duration-1000"></span>
                     </div>
                 </div>
 
-                <h1 class="editorial-title text-[10vw] lg:text-8xl xl:text-[8.5rem] reveal-up mb-10">
+                <h1 class="editorial-title text-[10vw] lg:text-8xl xl:text-[9rem] reveal-up mb-12 relative inline-block group/title">
+                    <span class="absolute -top-8 -right-8 text-[10px] font-serif italic text-indigo-500 opacity-0 group-hover/title:opacity-100 transition-all duration-700">01</span>
                     KNOWLEDGE <br>
-                    <span class="outline-text italic">EVOLUTION.</span>
+                    <span class="outline-text italic transition-all duration-1000 group-hover/title:text-white">EVOLUTION.</span>
                 </h1>
 
-                <div class="flex flex-col items-center gap-12 reveal-up">
-                    <p class="text-[10px] md:text-[12px] text-white/40 uppercase tracking-[0.4em] leading-loose max-w-2xl">
-                        Ruang koleksi premium aku buat kamu yang ingin terus <span class="text-white">mengasah pikiran</span>. Didesain spesial untuk hasil yang luar biasa.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-6">
-                        <a href="#" class="btn-premium">Gabung Sekarang</a>
-                        <a href="#about" class="px-10 py-4 text-[10px] font-black uppercase tracking-widest border border-white/10 rounded-full hover:bg-white/5 transition-all">Kenalan Lebih Jauh</a>
+                <div class="flex flex-col items-center gap-14 reveal-up">
+                    <div class="relative">
+                        <span class="absolute -left-10 top-0 text-[6px] text-indigo-500 opacity-40 font-black">“</span>
+                        <p class="text-[11px] md:text-[13px] text-white/30 uppercase tracking-[0.5em] leading-[2.2] max-w-2xl font-medium">
+                            Ruang koleksi premium aku buat untuk <span class="text-white/60 hover:text-indigo-400 transition-colors cursor-default">kamu</span> yang ingin terus <span class="text-white border-b border-white/10 pb-1">mengasah pikiran</span>. Didesain spesial untuk hasil yang luar biasa.
+                        </p>
+                        <span class="absolute -right-10 bottom-0 text-[6px] text-indigo-500 opacity-40 font-black">”</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-8 items-center">
+                        <div class="relative group/prm">
+                            <span class="absolute -top-4 left-1/2 -translate-x-1/2 text-[5px] font-black text-white/0 group-hover/prm:text-indigo-400 uppercase tracking-[0.5em] transition-all">Mulai Petualangan</span>
+                            <a href="#" class="btn-premium px-12 py-5 bg-white text-black rounded-full text-[10px] font-black uppercase tracking-[0.3em] hover:bg-indigo-500 hover:text-white transition-all duration-700 shadow-2xl">Gabung Sekarang</a>
+                        </div>
+
+                        <a href="#about" class="group flex items-center gap-4 px-10 py-5 text-[9px] font-black uppercase tracking-[0.4em] border border-white/5 rounded-full hover:border-white/20 transition-all relative overflow-hidden">
+                            <span class="relative z-10">Kenalan Lebih Jauh</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 scale-0 group-hover:scale-100 transition-transform duration-500"></span>
+                        </a>
                     </div>
                 </div>
+            </div>
+
+            {{-- Scroll Hint --}}
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-20 hover:opacity-100 transition-opacity duration-700">
+                <span class="text-[6px] font-black uppercase tracking-[0.8em] rotate-180 vertical-rl">Scroll Down</span>
+                <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
             </div>
         </section>
 
@@ -567,11 +641,11 @@
                 </div>
             </div>
         </section>
-        
+
 
         <section class="py-32 px-10 lg:px-24 relative overflow-hidden">
             <div class="absolute inset-0 bg-indigo-600/5 skew-y-3 transform origin-right"></div>
-            
+
             <div class="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto reveal-up">
                 <div class="w-20 h-[1px] bg-indigo-500 mb-12"></div>
                 <h2 class="editorial-title text-5xl lg:text-7xl mb-8">
@@ -581,7 +655,7 @@
                     Penasaran gimana aku meramu teknologi di balik layar? <br>
                     Yuk, kita intip rahasia dapur, struktur database, sampai konsep desain premium yang bikin <span class="text-white font-bold">Prinz Archive</span> jadi senyaman ini buat kamu pakai.
                 </p>
-                
+
                 <a href="/blueprint" class="group relative px-12 py-5 overflow-hidden rounded-full bg-white text-black transition-all duration-500 hover:pr-16">
                     <span class="relative z-10 text-[10px] font-black uppercase tracking-[0.3em]">Jelajahi Blueprint Sistem</span>
                     <div class="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:right-8 transition-all duration-500">
@@ -602,34 +676,72 @@
             <style>
                 /* Animasi Scrolling Code (Backend) */
                 @keyframes backend-scroll {
-                    0% { transform: translateY(0); opacity: 0.2; }
-                    50% { opacity: 0.5; }
-                    100% { transform: translateY(-50%); opacity: 0.2; }
+                    0% {
+                        transform: translateY(0);
+                        opacity: 0.2;
+                    }
+
+                    50% {
+                        opacity: 0.5;
+                    }
+
+                    100% {
+                        transform: translateY(-50%);
+                        opacity: 0.2;
+                    }
                 }
-                .backend-scroll { animation: backend-scroll 10s infinite linear; }
+
+                .backend-scroll {
+                    animation: backend-scroll 10s infinite linear;
+                }
 
                 /* Animasi UI Floating (Frontend) */
                 @keyframes ui-float {
-                    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
-                    50% { transform: translateY(-15px) rotate(5deg); opacity: 1; }
+
+                    0%,
+                    100% {
+                        transform: translateY(0) rotate(0deg);
+                        opacity: 0.5;
+                    }
+
+                    50% {
+                        transform: translateY(-15px) rotate(5deg);
+                        opacity: 1;
+                    }
                 }
-                .ui-float { animation: ui-float 4s infinite ease-in-out; }
+
+                .ui-float {
+                    animation: ui-float 4s infinite ease-in-out;
+                }
 
                 /* Animasi Laser Beam (Transition) */
                 @keyframes laser-beam {
-                    0%, 100% { width: 0; opacity: 0; }
-                    50% { width: 100%; opacity: 1; filter: blur(2px); }
+
+                    0%,
+                    100% {
+                        width: 0;
+                        opacity: 0;
+                    }
+
+                    50% {
+                        width: 100%;
+                        opacity: 1;
+                        filter: blur(2px);
+                    }
                 }
-                .laser-beam { animation: laser-beam 1s ease-in-out forwards; }
+
+                .laser-beam {
+                    animation: laser-beam 1s ease-in-out forwards;
+                }
             </style>
 
             <div class="glass-bento p-12 lg:p-20 relative overflow-hidden group border-indigo-500/10 hover:border-indigo-500/30 transition-all duration-1000">
                 <div class="grid lg:grid-cols-2 gap-20 items-center">
-                    
+
                     <div class="relative flex justify-center items-center h-[400px] bg-[#050505] rounded-3xl border border-white/5 overflow-hidden transition-all duration-700 group-hover:border-indigo-500/20 order-1 lg:order-2">
-                        
+
                         <div class="absolute w-64 h-64 bg-indigo-500/10 rounded-full blur-[100px] group-hover:bg-indigo-500/30 transition-all duration-1000"></div>
-                        
+
                         <div class="absolute inset-y-0 left-0 w-1/2 flex flex-col items-center justify-center p-6 border-r border-indigo-500/20 transition-all duration-700 group-hover:w-0 group-hover:opacity-0 group-hover:scale-50">
                             <div class="relative flex justify-center items-center h-[200px]">
                                 <div class="w-20 h-12 bg-indigo-500 rounded-lg shadow-[0_0_20px_#4f46e5] ui-float" style="animation-delay: 0.2s"></div>
@@ -665,12 +777,12 @@
                             Fullstack Dimensions
                         </div>
                         <h4 class="text-5xl font-black italic tracking-tighter uppercase mb-10 leading-[0.9] text-white">The Fullstack<br><span class="text-indigo-500">Synthesizer.</span></h4>
-                        
+
                         <div class="space-y-8">
                             <div class="group/item">
                                 <h5 class="text-[10px] font-black uppercase tracking-widest text-white mb-3 flex items-center gap-3">
                                     <span class="text-indigo-500">01.</span> Frontend Dimension
-                                                                    </h5>
+                                </h5>
                                 <p class="text-[11px] text-white/40 uppercase tracking-widest leading-relaxed">
                                     Menciptakan antarmuka yang responsif, modern, dan intuitif menggunakan <span class="text-white italic">Tailwind CSS</span> & <span class="text-white italic">Vue.js</span>. Di mana estetika visual bertemu dengan pengalaman pengguna yang mulus.
                                 </p>
@@ -695,12 +807,25 @@
             <style>
                 /* Animasi Garis Kecepatan (Warp Speed) */
                 @keyframes warp-speed {
-                    0% { transform: translateY(-100%); opacity: 0; }
-                    50% { opacity: 1; }
-                    100% { transform: translateY(100%); opacity: 0; }
+                    0% {
+                        transform: translateY(-100%);
+                        opacity: 0;
+                    }
+
+                    50% {
+                        opacity: 1;
+                    }
+
+                    100% {
+                        transform: translateY(100%);
+                        opacity: 0;
+                    }
                 }
+
                 .warp-line {
-                    position: absolute; width: 1px; height: 100px;
+                    position: absolute;
+                    width: 1px;
+                    height: 100px;
                     background: linear-gradient(to bottom, transparent, #6366f1, transparent);
                     animation: warp-speed 0.5s infinite linear;
                     opacity: 0;
@@ -708,15 +833,27 @@
 
                 /* Animasi Tombol Berdenyut */
                 @keyframes btn-pulse {
-                    0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); border-color: rgba(99, 102, 241, 0.2); }
-                    50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.5); border-color: rgba(99, 102, 241, 0.6); }
+
+                    0%,
+                    100% {
+                        box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+                        border-color: rgba(99, 102, 241, 0.2);
+                    }
+
+                    50% {
+                        box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+                        border-color: rgba(99, 102, 241, 0.6);
+                    }
                 }
-                .btn-gateway { animation: btn-pulse 3s infinite ease-in-out; }
+
+                .btn-gateway {
+                    animation: btn-pulse 3s infinite ease-in-out;
+                }
             </style>
 
             <div class="glass-bento p-1 relative overflow-hidden group rounded-[40px]">
                 <div class="bg-[#050505] rounded-[38px] py-24 px-12 relative overflow-hidden flex flex-col items-center justify-center text-center">
-                    
+
                     <div class="absolute inset-0 pointer-events-none">
                         <div class="warp-line left-[10%] group-hover:opacity-100" style="animation-delay: 0.1s"></div>
                         <div class="warp-line left-[30%] group-hover:opacity-100" style="animation-delay: 0.3s"></div>
@@ -738,7 +875,7 @@
 
                         <a href="{{ route('archive.hub') }}" class="relative inline-flex items-center justify-center px-12 py-6 group/btn">
                             <div class="absolute inset-0 bg-indigo-600 rounded-xl skew-x-[-12deg] transition-all duration-500 group-hover/btn:bg-white group-hover/btn:scale-110 btn-gateway"></div>
-                            
+
                             <div class="relative flex items-center gap-4 text-white group-hover/btn:text-black transition-colors duration-500">
                                 <span class="text-xs font-black uppercase tracking-[0.3em] italic">Enter The Archive</span>
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-500 group-hover/btn:translate-x-2">

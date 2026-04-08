@@ -9,207 +9,298 @@
         --glass-border: rgba(255, 255, 255, 0.06);
     }
 
-    .cluster-node {
+    @keyframes smoothReveal {
+        from {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Animasi Denyut untuk Card Kosong */
+    @keyframes waitingPulse {
+        0% {
+            border-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0px rgba(99, 102, 241, 0);
+        }
+
+        50% {
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.05);
+        }
+
+        100% {
+            border-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0px rgba(99, 102, 241, 0);
+        }
+    }
+
+    .reveal-card {
+        animation: smoothReveal 1.4s cubic-bezier(0.19, 1, 0.22, 1) both;
+    }
+
+    .koleksi-card {
         background: var(--card-bg);
-        backdrop-filter: blur(30px) saturate(180%);
+        backdrop-filter: blur(40px) saturate(200%);
         border: 1px solid var(--glass-border);
-        border-radius: 40px;
-        padding: 3.5rem 3rem 2.5rem 3rem;
-        transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        border-radius: 44px;
+        padding: 4rem 3rem 3rem 3rem;
+        transition: all 0.9s cubic-bezier(0.19, 1, 0.22, 1);
         position: relative;
         overflow: hidden;
     }
 
-    .cluster-node:hover {
-        background: rgba(255, 255, 255, 0.035);
-        border-color: rgba(99, 102, 241, 0.6);
-        transform: translateY(-12px) scale(1.01);
-        box-shadow: 0 50px 100px -20px rgba(0,0,0,0.7), 0 0 30px rgba(99, 102, 241, 0.1);
+    .koleksi-card:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(99, 102, 241, 0.4);
+        transform: translateY(-12px);
+        box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.6);
     }
 
-    .mini-book-list {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        margin-top: 2.5rem;
+    .card-empty {
+        animation: waitingPulse 3s infinite ease-in-out;
     }
 
     .mini-book-item {
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 24px;
-        padding: 14px 20px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 26px;
+        padding: 18px 24px;
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 24px;
         border: 1px solid transparent;
-        transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .mini-book-item:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: var(--accent);
-        transform: translateX(12px);
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.1);
+        transform: translateX(12px) scale(1.02);
     }
 
-    .mini-cover {
-        width: 44px;
-        height: 60px;
-        border-radius: 10px;
-        object-fit: cover;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .status-badge {
-        font-size: 8px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        padding: 6px 14px;
-        border-radius: 100px;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.05);
-        color: rgba(255,255,255,0.5);
-    }
-
-    .btn-add-more {
+    .btn-tambah-soft {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        margin-top: 2rem;
-        padding: 12px 24px;
-        border-radius: 18px;
-        background: rgba(99, 102, 241, 0.05);
-        border: 1px dashed rgba(99, 102, 241, 0.4);
-        color: var(--accent);
-        font-size: 10px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        transition: 0.4s ease;
+        gap: 12px;
+        padding: 14px 28px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.4);
+        font-[9px] font-black uppercase tracking-[0.3em];
+        transition: all 0.5s ease;
     }
 
-    .btn-add-more:hover {
+    .btn-tambah-soft:hover {
         background: var(--accent);
         color: white;
-        border-style: solid;
+        border-color: var(--accent);
+        transform: translateY(-4px);
         box-shadow: 0 15px 30px var(--accent-glow);
     }
 
-    .fab-add {
-        position: fixed;
-        bottom: 50px;
-        right: 50px;
-        z-index: 100;
-        background: #fff;
-        color: #000;
-        width: 72px;
-        height: 72px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 26px;
-        box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.6);
-        transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+
+    .footer-premium {
+        opacity: 0.2;
+        /* Lebih redup saat diam agar fokus ke konten utama */
+        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
     }
 
-    .fab-add:hover {
-        transform: scale(1.15) rotate(180deg);
+    .footer-premium:hover {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(99, 102, 241, 0.02), transparent);
+    }
+
+    /* Garis tipis yang menyatu */
+    .footer-line-minimal {
+        width: 30px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.05);
+        transition: all 1s ease;
+    }
+
+    .group\/pesan:hover .footer-line-minimal {
+        width: 60px;
         background: var(--accent);
-        color: #fff;
+        box-shadow: 0 0 15px var(--accent);
+    }
+
+    /* Hover Teks: Mainkan Opacity, bukan cuma jarak */
+    .footer-text-soft {
+        transition: all 1s ease;
+        letter-spacing: 0.8em;
+    }
+
+    .footer-premium:hover .footer-text-soft {
+        letter-spacing: 1em;
+        /* Cuma nambah sedikit biar nggak "rusak" layoutnya */
+        color: rgba(255, 255, 255, 0.9);
     }
 </style>
 
-<div class="reveal-up">
-    @auth
-    <a href="{{ route('bukus.create') }}" class="fab-add group">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
-        </svg>
-    </a>
-    @endauth
-
-    <div class="py-20 lg:py-32 max-w-7xl mx-auto px-8">
-        <header class="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-32">
-            <div>
-                <span class="text-[10px] font-black tracking-[1.2em] uppercase text-indigo-500/60 block mb-6 italic underline decoration-indigo-500/20 underline-offset-[12px]">Intelligence_Nodes</span>
-                <h1 class="text-8xl lg:text-9xl font-black italic tracking-tighter text-white uppercase leading-[0.8]">
-                    Vault<br><span class="text-indigo-500 opacity-90">Clusters.</span>
-                </h1>
+<div class="py-24 lg:py-36 max-w-7xl mx-auto px-10">
+    <header class="flex flex-col lg:flex-row lg:items-end justify-between gap-16 mb-40 relative">
+        <div class="relative">
+            <div class="flex items-center gap-4 mb-8 group cursor-default">
+                <div class="w-10 h-[1px] bg-indigo-500/30 group-hover:w-16 group-hover:bg-indigo-500 transition-all duration-1000"></div>
+                <span class="text-[9px] font-black tracking-[1em] uppercase text-indigo-400/50 italic">Personal Reading Space</span>
             </div>
-            <div class="text-right">
-                <div class="flex items-center justify-end gap-3 mb-4">
-                    <span class="text-[9px] font-black text-white/40 uppercase tracking-[0.4em]">Network_Stable</span>
-                    <div class="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_15px_var(--accent)] animate-pulse"></div>
+
+            <h1 class="text-9xl font-black italic tracking-tighter text-white uppercase leading-[0.75] transition-all duration-1000 group cursor-default">
+                Arsip<br>
+                <span class="relative">
+                    <span style="-webkit-text-stroke: 1px rgba(255,255,255,0.15); color: transparent;">Kenangan.</span>
+                    <span class="absolute -right-20 bottom-4 text-[8px] tracking-[0.5em] text-indigo-500/40 font-black animate-pulse uppercase">Curated</span>
+                </span>
+            </h1>
+
+            <div class="mt-12 flex items-center gap-12">
+                <div class="flex flex-col gap-1.5 border-l-2 border-indigo-500/20 pl-6 hover:border-indigo-500 transition-colors duration-700">
+                    <span class="text-[7px] font-black text-white/20 uppercase tracking-[0.5em]">Kolektor</span>
+                    <span class="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em]">{{Auth::user()->name}}</span>
                 </div>
-                <p class="text-[8px] font-mono text-white/5 uppercase tracking-[0.6em]">Active_Protocol: V2.4.0_PRINZ</p>
+                <div class="flex flex-col gap-1.5 border-l-2 border-white/5 pl-6">
+                    <span class="text-[7px] font-black text-white/20 uppercase tracking-[0.5em]">Status Rak</span>
+                    <span class="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em]">Terorganisir</span>
+                </div>
+                <div class="flex flex-col gap-1.5 border-l-2 border-white/5 pl-6">
+                    <span class="text-[7px] font-black text-white/20 uppercase tracking-[0.5em]">Wilayah</span>
+                    <span class="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em]">Malang, ID</span>
+                </div>
             </div>
-        </header>
+        </div>
 
-        <div class="grid lg:grid-cols-2 gap-12">
-            @foreach($kategoris as $index => $kategori)
-            <div class="cluster-node group">
-                <div class="absolute -top-32 -right-32 w-64 h-64 bg-indigo-600/10 blur-[120px] rounded-full group-hover:bg-indigo-600/20 transition-all"></div>
-
-                <div class="flex justify-between items-start relative z-10">
-                    <div>
-                        <div class="flex items-center gap-4 mb-4">
-                            <span class="w-10 h-px bg-indigo-500/30"></span>
-                            <span class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.5em] italic">Node_{{ sprintf('%02d', $index + 1) }}</span>
-                        </div>
-                        <h3 class="text-2xl font-black text-white italic uppercase tracking-tighter leading-none">{{ $kategori->nama_kategori }}</h3>
-                    </div>
-                    <div class="status-badge">
-                        {{ $kategori->bukus->count() }} Assets
-                    </div>
+        <div class="hidden lg:flex flex-col items-end gap-6 text-right">
+            <div class="group cursor-default">
+                <span class="text-[8px] font-black text-white/10 uppercase tracking-[0.6em] group-hover:text-indigo-400 transition-colors duration-700">Digital Library Interface</span>
+                <div class="flex items-center justify-end gap-3 mt-2">
+                    <span class="text-[10px] font-bold text-white/30 uppercase tracking-[0.3em]">Aktif & Nyaman</span>
+                    <div class="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_15px_var(--accent)]"></div>
                 </div>
+            </div>
+            <div class="p-6 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-sm">
+                <p class="text-[7px] leading-relaxed text-white/20 uppercase tracking-[0.3em] max-w-[180px]">
+                    Setiap buku adalah jendela, simpan ia dengan rasa hormat di sini.
+                </p>
+            </div>
+        </div>
+    </header>
 
-                @if($kategori->bukus->count() > 0)
-                    <div class="mini-book-list relative z-10">
-                        @foreach($kategori->bukus->take(3) as $buku)
-                        <div class="mini-book-item group/item">
-                            <img src="{{ $buku->image_url ?? 'https://via.placeholder.com/100x140/0a0a0a/ffffff?text=?' }}" class="mini-cover">
-                            <div class="flex-grow">
-                                <h4 class="text-[13px] font-black text-white/95 uppercase tracking-tight leading-tight">{{ Str::limit($buku->judul, 38) }}</h4>
-                                <p class="text-[9px] text-white/30 uppercase tracking-[0.2em] font-bold mt-2">{{ $buku->penulis ?? 'Classified_Author' }}</p>
-                            </div>
-                            <a href="{{ route('bukus.edit', $buku->id) }}" class="w-9 h-9 rounded-xl flex items-center justify-center border border-white/5 opacity-0 group-hover/item:opacity-100 transition-all hover:bg-white hover:text-black hover:rotate-12">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2.5"/></svg>
-                            </a>
+    <div class="grid lg:grid-cols-2 gap-14">
+        @foreach($kategoris as $index => $kategori)
+        <div class="koleksi-card group reveal-card {{ $kategori->bukus->count() == 0 ? 'card-empty' : '' }}" style="animation-delay: {{ $index * 0.2 }}s">
+
+            <span class="absolute top-8 right-12 text-[6px] font-black text-white/5 uppercase tracking-[1em] group-hover:text-indigo-500/20 transition-colors">
+                Ref.0{{ $index + 1 }}
+            </span>
+
+            <div class="flex justify-between items-start relative z-10 mb-14">
+                <div>
+                    <div class="flex items-center gap-3 mb-5 opacity-40 group-hover:opacity-100 transition-all duration-700">
+                        <div class="w-2 h-2 border border-indigo-500 group-hover:rotate-45 transition-transform duration-700"></div>
+                        <span class="text-[8px] font-black text-indigo-400 uppercase tracking-[0.5em]">Koleksi {{ sprintf('%02d', $index + 1) }}</span>
+                    </div>
+                    <h3 class="text-4xl font-black text-white italic uppercase tracking-tighter leading-none group-hover:translate-x-2 transition-transform duration-700">
+                        {{ $kategori->nama_kategori }}
+                    </h3>
+                </div>
+                <div class="px-5 py-2 rounded-full bg-white/[0.03] border border-white/5 text-[8px] font-black text-white/40 uppercase tracking-widest group-hover:bg-indigo-500 group-hover:text-white transition-all duration-700">
+                    {{ $kategori->bukus->count() }} Items
+                </div>
+            </div>
+
+            @if($kategori->bukus->count() > 0)
+            <div class="flex flex-col gap-5 relative z-10">
+                @foreach($kategori->bukus->take(3) as $buku)
+                <div class="mini-book-item group/item">
+                    <img src="{{ $buku->image_url ?? 'https://via.placeholder.com/100x140/0a0a0a/ffffff?text=?' }}" class="w-12 h-16 rounded-xl object-cover shadow-2xl grayscale group-hover/item:grayscale-0 transition-all duration-700">
+                    <div class="flex-grow">
+                        <h4 class="text-[14px] font-black text-white/90 uppercase tracking-tight leading-tight">{{ Str::limit($buku->judul, 40) }}</h4>
+                        <div class="flex items-center gap-3 mt-2.5">
+                            <span class="w-4 h-px bg-white/10 group-hover/item:bg-indigo-500 transition-all"></span>
+                            <p class="text-[8px] text-white/30 uppercase tracking-[0.2em] font-bold italic">{{ $buku->penulis ?? 'Anonim' }}</p>
                         </div>
-                        @endforeach
-                        
-                        <a href="{{ route('bukus.create', ['kategori_id' => $kategori->id]) }}" class="btn-add-more">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="3"/></svg>
-                            Tambah Lagi yuk !!
-                        </a>
                     </div>
-                @else
-                    <div class="mt-10 p-10 border border-dashed border-white/5 rounded-[32px] bg-white/[0.01] text-center relative z-10">
-                        <h4 class="text-white/60 text-xs font-black uppercase tracking-widest mb-2">Registry Empty</h4>
-                        <p class="text-[9px] text-white/20 uppercase tracking-[0.2em] mb-6 italic">Belum ada aset terdaftar di cluster ini.</p>
-                        <a href="{{ route('bukus.create', ['kategori_id' => $kategori->id]) }}" class="btn-add-more !mt-0">Isi Data Cluster</a>
-                    </div>
-                @endif
+                    <a href="{{ route('bukus.edit', $buku->id) }}" class="w-10 h-10 rounded-2xl flex items-center justify-center border border-white/5 opacity-0 group-hover/item:opacity-100 transition-all hover:bg-white hover:text-black hover:-rotate-12">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-width="2.5" />
+                        </svg>
+                    </a>
+                </div>
+                @endforeach
 
-                <div class="mt-14 pt-8 border-t border-white/5 flex justify-between items-center relative z-10">
-                    <div class="flex items-center gap-3">
-                        <div class="w-2 h-2 rounded-full bg-indigo-500/50"></div>
-                        <span class="text-[8px] font-black text-white/10 uppercase tracking-[0.4em]">Archive_Safe</span>
-                    </div>
-                    <a href="{{ route('kategoris.show', $kategori->id) }}" class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] hover:text-indigo-400 transition-all italic flex items-center gap-2 group/link">
-                        View_Full_Node
-                        <span class="group-hover/link:translate-x-2 transition-transform italic text-indigo-500">→</span>
+                <div class="mt-8">
+                    <a href="{{ route('bukus.create', ['kategori_id' => $kategori->id]) }}" class="btn-tambah-soft group/btn">
+                        <svg class="w-3 h-3 group-hover/btn:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4v16m8-8H4" stroke-width="3" />
+                        </svg>
+                        Tambahkan Karya Baru
                     </a>
                 </div>
             </div>
-            @endforeach
+            @else
+            <div class="mt-4 p-14 border border-dashed border-white/5 rounded-[44px] bg-white/[0.01] text-center relative z-10 transition-all group-hover:border-indigo-500/30 group-hover:bg-indigo-500/[0.02]">
+                <div class="w-12 h-12 rounded-full border border-white/5 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-700">
+                    <svg class="w-5 h-5 text-white/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="1.5" />
+                    </svg>
+                </div>
+                <p class="text-[9px] text-white/20 uppercase tracking-[0.4em] mb-8 italic">Belum ada jejak di sudut ini.</p>
+                <a href="{{ route('bukus.create', ['kategori_id' => $kategori->id]) }}" class="btn-tambah-soft">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 4v16m8-8H4" stroke-width="3" />
+                    </svg>
+                    Mulai Menulis
+                </a>
+            </div>
+            @endif
+
+            <div class="mt-14 pt-10 border-t border-white/5 flex justify-between items-center relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-1000 translate-y-6 group-hover:translate-y-0">
+                <span class="text-[8px] font-black text-white/10 uppercase tracking-[0.5em]">Terjaga Selamanya</span>
+                <a href="{{ route('kategoris.show', $kategori->id) }}" class="text-[9px] font-black text-indigo-400 uppercase tracking-[0.3em] hover:tracking-[0.5em] transition-all italic flex items-center gap-3">
+                    Buka Sudut Baca
+                    <span class="text-indigo-500">→</span>
+                </a>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+    <footer class="footer-premium mt-32 py-16 flex flex-col md:flex-row justify-between items-center gap-8 cursor-default relative">
+
+        <div class="flex flex-col gap-1.5 items-center md:items-start group/identitas">
+            <div class="flex items-center gap-3">
+                <div class="w-1.5 h-1.5 rounded-full bg-white/5 group-hover/identitas:bg-indigo-500 group-hover/identitas:shadow-[0_0_12px_rgba(99,102,241,0.8)] transition-all duration-700"></div>
+                <span class="text-[10px] font-black uppercase tracking-[1em] text-white/20 group-hover/identitas:text-indigo-400 footer-text-soft">
+                    Selasar {{Auth::user()->name}}
+                </span>
+            </div>
+            <span class="text-[8px] font-bold text-white/5 uppercase tracking-[0.4em] ml-4 group-hover/identitas:text-white/20 transition-all duration-1000">
+                Kenangan Menetap &bull; Malang {{ date('Y') }}
+            </span>
         </div>
 
-        <footer class="mt-40 py-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-20 group">
-            <span class="text-[10px] font-black uppercase tracking-[1em] text-indigo-500">Node_User: PRINZ</span>
-            <span class="text-[10px] font-black uppercase tracking-[0.5em]">2026_VAULT_SYSTEM_CORE</span>
-        </footer>
-    </div>
+        <div class="flex items-center gap-6 group/pesan">
+            <div class="footer-line-minimal"></div>
+            <div class="flex flex-col items-end gap-1">
+                <span class="text-[9px] font-black uppercase tracking-[0.6em] italic text-white/5 group-hover/pesan:text-white/40 transition-all">
+                    Terima kasih telah berkunjung
+                </span>
+                <span class="text-[7px] font-medium uppercase tracking-[0.3em] text-white/0 group-hover/pesan:text-indigo-400/30 transition-all">
+                    Semoga harimu penuh inspirasi
+                </span>
+            </div>
+            <div class="h-6 w-px bg-white/5 group-hover/pesan:bg-indigo-500/40 transition-all"></div>
+        </div>
+
+        <div class="absolute -bottom-2 right-4 opacity-0 group-hover/header:opacity-[0.02] pointer-events-none transition-opacity duration-1000">
+            <span class="text-[60px] font-black italic tracking-tighter">PRINZ</span>
+        </div>
+    </footer>
 </div>
 @endsection

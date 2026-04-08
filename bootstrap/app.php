@@ -14,21 +14,22 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // --- INI PENGGANTI REDIRECT TO YANG ERROR TADI ---
         $middleware->redirectTo(
             guests: '/login',
             users: '/beranda'
         );
 
-        // Tambahkan ini agar login Firebase tidak ditolak Laravel
+        // Agar login Firebase tidak ditolak (Exclude CSRF)
         $middleware->validateCsrfTokens(except: [
-            'login-firebase', 
+            'login-firebase',
+            'auth/clerk/verify',
         ]);
 
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
 
         $middleware->web(append: [
             HandleAppearance::class,
-            HandleInertiaRequests::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);

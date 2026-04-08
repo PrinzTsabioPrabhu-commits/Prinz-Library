@@ -4,244 +4,316 @@
 <style>
     :root {
         --accent: #6366f1;
-        --accent-glow: rgba(99, 102, 241, 0.3);
-        --card-bg: rgba(255, 255, 255, 0.02);
-        --glass-border: rgba(255, 255, 255, 0.08);
+        --glass: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.08);
     }
 
-    /* 1. LAYOUT & MARQUEE */
+    /* 1. MARQUEE ATAS */
     .marquee-container {
-        border-top: 1px solid var(--glass-border);
-        border-bottom: 1px solid var(--glass-border);
-        padding: 12px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 14px 0;
         overflow: hidden;
-        margin-bottom: 4rem;
-        background: rgba(255,255,255,0.01);
+        margin-bottom: 5rem;
+        background: rgba(255, 255, 255, 0.01);
     }
 
     .marquee-text {
         display: inline-block;
         white-space: nowrap;
-        animation: marquee 25s linear infinite;
-        font-family: 'Monaco', monospace;
-        font-size: 9px;
-        font-weight: 800;
+        animation: marquee 40s linear infinite;
+        font-size: 10px;
+        font-weight: 700;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.15);
-        letter-spacing: 6px;
+        color: rgba(255, 255, 255, 0.15);
+        letter-spacing: 5px;
     }
 
     @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-100%); }
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
     }
 
-    /* 2. GRID SYSTEM */
-    .book-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 2.5rem;
-    }
-
-    /* 3. CARD REFINEMENT */
-    .boutique-card {
+    /* 2. CARD DESIGN */
+    .book-card {
         position: relative;
-        background: var(--card-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 28px;
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 24px;
         padding: 0.8rem;
-        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        cursor: pointer;
-        overflow: hidden;
+        transition: all 0.7s cubic-bezier(0.15, 1, 0.3, 1);
     }
 
-    .boutique-card:hover {
+    .book-card:hover {
         border-color: var(--accent);
-        transform: translateY(-12px);
-        box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.9);
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.05);
     }
 
-    .image-wrapper {
+    .image-container {
         position: relative;
-        aspect-ratio: 3/4.2;
-        border-radius: 20px;
+        aspect-ratio: 3/4.5;
+        border-radius: 18px;
         overflow: hidden;
-        background: #080808;
+        background: #0a0a0a;
     }
 
-    .image-wrapper img {
+    .image-container img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0.7;
-        transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: 1s ease;
     }
 
-    .boutique-card:hover img {
-        opacity: 1;
-        transform: scale(1.08);
-    }
-
-    .info-block {
+    /* 3. HOVER ACTIONS (GANTI MODAL) */
+    .hover-actions {
         position: absolute;
-        bottom: 0; left: 0; right: 0;
-        padding: 2.5rem 1.5rem 1.5rem;
-        background: linear-gradient(to top, rgba(0,0,0,1) 30%, transparent);
-        pointer-events: none;
-    }
-
-    /* 4. MODAL */
-    .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(15px);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
         display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-        opacity: 0;
-        pointer-events: none;
-        transition: 0.4s;
+        gap: 8px;
+        transform: translateY(100%);
+        transition: transform 0.5s cubic-bezier(0.15, 1, 0.3, 1);
     }
 
-    .modal-overlay.modal-visible {
-        opacity: 1;
-        pointer-events: auto;
+    .book-card:hover .hover-actions {
+        transform: translateY(0);
     }
 
-    .action-modal-content {
-        background: #0a0a0a;
-        border: 1px solid var(--glass-border);
-        border-radius: 40px;
-        width: 95%;
-        max-width: 420px;
-        padding: 3.5rem 2.5rem;
-        transform: scale(0.9);
-        transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .modal-visible .action-modal-content { transform: scale(1); }
-
-    .opt-btn-hex {
-        padding: 1.5rem;
-        border-radius: 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        color: #fff;
+    .btn-action {
+        flex: 1;
+        padding: 8px;
+        border-radius: 10px;
         font-size: 9px;
-        font-weight: 900;
+        font-weight: 800;
         text-transform: uppercase;
-        border: 1px solid var(--glass-border);
-        background: rgba(255,255,255,0.02);
+        text-align: center;
         transition: 0.3s;
+        text-decoration: none;
     }
 
-    .opt-btn-hex:hover { 
-        background: var(--accent); 
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px var(--accent-glow);
+    .btn-ubah {
+        background: white;
+        color: black;
+    }
+
+    .btn-ubah:hover {
+        background: var(--accent);
+        color: white;
+    }
+
+    .btn-hapus {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-hapus:hover {
+        background: #ef4444;
+        border-color: #ef4444;
+    }
+
+    .info-area {
+        padding: 1.2rem 0.5rem 0.5rem;
     }
 </style>
 
-
-<div class="reveal-up">
+<div class="py-10">
+    {{-- Marquee Cantik --}}
     <div class="marquee-container">
         <div class="marquee-text">
-            SELAMAT DATANG DI KOLEKSI PRIBADI // TEMPAT BUKU-BUKU TERBAIKMU // DIKELOLA DENGAN CINTA // {{ date('Y-m-d H:i') }} // E-LIBRARY MODERN // SISTEM AMAN & CEPAT
+            SELAMAT DATANG DI RUANG BACA PRIBADI // SEMUA BUKU KESAYANGANMU ADA DI SINI // NYAMAN & RAPI // TERIMA KASIH SUDAH BERKUNJUNG // {{ date('d F Y') }}
         </div>
     </div>
 
     <div class="max-w-7xl mx-auto px-8">
-        <header class="mb-20 flex justify-between items-end">
-            <div>
-                <h1 class="text-7xl font-black uppercase italic tracking-tighter text-white">Ini adalah Rak Kamu<span class="text-indigo-500">.</span></h1>
-                <p class="text-[7px] text-white/30 tracking-[0.5em] uppercase mt-2">Arsip Buku Pribadi Kamu</p>
-            </div>
-            
-            <a href="{{ route('bukus.create') }}" class="px-8 py-5 bg-white rounded-2xl group hover:bg-indigo-600 transition-all duration-500 flex items-center gap-4">
-                <span class="text-[10px] font-black uppercase tracking-widest text-black group-hover:text-white">Tambah Buku.</span>
-                <svg class="w-4 h-4 text-black group-hover:text-white group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="3"/></svg>
-            </a>
-        </header>
-
-        <div class="space-y-24 mb-24">
-            @forelse($bukus as $kategori => $group)
-            <div class="reveal-up">
-                <div class="flex items-center gap-6 mb-10">
-                    <h2 class="text-xs font-black uppercase tracking-[0.5em] text-white/40 italic whitespace-nowrap">{{ $kategori }}</h2>
-                    <div class="h-[1px] w-full bg-white/5"></div>
-                    <span class="text-[8px] font-black text-indigo-500/50 uppercase tracking-tighter whitespace-nowrap">{{ count($group) }} items</span>
+        {{-- Header --}}
+        <header class="mb-24 flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
+            <div class="relative">
+                {{-- Indikator Status Mikro --}}
+                <div class="flex items-center gap-3 mb-6 group cursor-default">
+                    <div class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </div>
+                    <span class="text-[7px] font-black text-white/40 uppercase tracking-[0.4em] group-hover:text-indigo-400 transition-colors duration-500">
+                        Sistem Siap Menemani
+                    </span>
+                    <span class="h-[1px] w-8 bg-white/5"></span>
+                    <span class="text-[7px] font-medium text-white/20 uppercase tracking-widest italic">
+                        {{ date('H:i') }} WIB
+                    </span>
                 </div>
 
-                <div class="book-grid">
-                    @foreach($group as $buku)
-                    <div class="boutique-card" onclick="openControlModal('{{ route('bukus.edit', $buku->id) }}', '{{ route('bukus.destroy', $buku->id) }}', '{{ addslashes($buku->judul) }}')">
-                        <div class="image-wrapper">
-                            <img src="{{ $buku->image_url ?? 'https://via.placeholder.com/400x560/0a0a0a/ffffff?text=TANPA_COVER' }}" alt="">
-                            <div class="info-block">
-                                <span class="text-[7px] font-black text-indigo-400 uppercase tracking-widest mb-1 block">{{ $buku->kategori->nama ?? 'Umum' }}</span>
-                                <h3 class="text-[11px] font-black text-white uppercase italic leading-tight">{{ Str::limit($buku->judul, 25) }}</h3>
+                {{-- Judul Utama --}}
+                <div class="group">
+                    <div class="relative group/title inline-block">
+                        {{-- Label Melayang Kiri Atas --}}
+                        <div class="absolute -top-6 left-1 overflow-hidden h-4">
+                            <p class="text-[7px] font-black uppercase tracking-[0.5em] text-indigo-500/0 group-hover/title:text-indigo-500 group-hover/title:translate-y-0 translate-y-4 transition-all duration-700 ease-out">
+                                Terpilih & Terkurasi
+                            </p>
+                        </div>
+
+                        {{-- Judul Utama --}}
+                        <h1 class="text-7xl md:text-8xl font-black uppercase italic tracking-tighter text-white leading-none selection:bg-indigo-500 transition-all duration-700 group-hover/title:tracking-[-0.05em]">
+                            Koleksiku<span class="text-indigo-500 inline-block hover:rotate-12 hover:scale-125 transition-transform duration-300 cursor-default">.</span>
+                        </h1>
+
+                        {{-- Baris Dekoratif Bawah --}}
+                        <div class="absolute -bottom-2 left-0 w-full flex items-center gap-3 opacity-0 group-hover/title:opacity-100 transition-all duration-1000">
+                            <span class="text-[6px] font-bold text-white/20 uppercase tracking-[1em] whitespace-nowrap">Est. 2026</span>
+                            <div class="h-[1px] w-full bg-gradient-to-r from-indigo-500/50 to-transparent scale-x-0 group-hover/title:scale-x-100 transition-transform duration-1000 origin-left"></div>
+                        </div>
+
+                        {{-- Catatan Kecil di Samping --}}
+                        <div class="absolute -right-16 top-1/2 -translate-y-1/2 rotate-90 hidden lg:block">
+                            <p class="text-[6px] font-black uppercase tracking-[0.4em] text-white/5 group-hover/title:text-white/20 transition-colors duration-700">
+                                Privat & Personal
+                            </p>
+                        </div>
+                    </div>
+                    {{-- Sub-teks dengan Garis Dekoratif --}}
+                    <div class="flex items-center gap-4 mt-6">
+                        <div class="flex flex-col gap-1">
+                            <div class="h-[2px] w-12 bg-indigo-500/50"></div>
+                            <div class="h-[1px] w-6 bg-white/10"></div>
+                        </div>
+                        <p class="text-[9px] text-white/30 tracking-[0.5em] uppercase font-medium">
+                            Tempat ternyaman untuk menyimpan inspirasi
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Tombol Tambah dengan Detail Ekstra --}}
+            <div class="flex flex-col items-end gap-4">
+                <div class="flex items-center gap-3 opacity-20 group-hover:opacity-100 transition-opacity">
+                    <span class="text-[6px] font-black text-white uppercase tracking-[0.3em]">Punya Bacaan Baru?</span>
+                </div>
+
+                <a href="{{ route('bukus.create') }}"
+                    class="group relative px-8 py-5 bg-white rounded-2xl overflow-hidden transition-all duration-700 hover:pr-14 active:scale-95 shadow-[0_20px_40px_rgba(255,255,255,0.05)]">
+
+                    {{-- Efek Hover Background --}}
+                    <div class="absolute inset-0 bg-indigo-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+
+                    <div class="relative flex items-center gap-5">
+                        <div class="text-right">
+                            <span class="block text-[11px] font-black uppercase tracking-widest text-black group-hover:text-white transition-colors duration-500">
+                                Tambah Baru
+                            </span>
+                            <span class="block text-[6px] font-bold uppercase tracking-[0.2em] text-black/30 group-hover:text-white/40 transition-colors duration-500">
+                                Perluas Wawasanmu
+                            </span>
+                        </div>
+
+                        <div class="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center group-hover:bg-white/10 transition-all duration-500">
+                            <svg class="w-5 h-5 text-black group-hover:text-white group-hover:rotate-180 transition-all duration-700"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 4v16m8-8H4" stroke-width="2.5" stroke-linecap="square" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </header>
+        {{-- Grouping Berdasarkan Kategori --}}
+        <div class="space-y-24 mb-32">
+            @forelse($bukus as $kategori => $daftarBuku)
+            <div class="reveal-up">
+                <div class="flex items-center gap-6 mb-12">
+                    <h2 class="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 italic">{{ $kategori }}</h2>
+                    <div class="h-[1px] flex-grow bg-white/5"></div>
+                    <span class="text-[9px] font-medium text-white/20 uppercase tracking-widest">{{ count($daftarBuku) }} Buku</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                    @foreach($daftarBuku as $buku)
+                    <div class="book-card">
+                        <div class="image-container">
+                            <img src="{{ $buku->image_url ?? asset('storage/' . $buku->cover) }}"
+                                onerror="this.src='https://via.placeholder.com/600x900/0a0a0a/ffffff?text=BELUM_ADA_SAMPUL'"
+                                alt="{{ $buku->judul }}">
+
+                            {{-- Tombol Melayang Saat Hover --}}
+                            <div class="hover-actions">
+                                <a href="{{ route('bukus.edit', $buku->id) }}" class="btn-action btn-ubah">Ubah</a>
+
+                                <form action="{{ route('bukus.destroy', $buku->id) }}" method="POST" class="flex-1">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn-action btn-hapus w-full" onclick="return confirm('Hapus buku ini dari koleksi?')">
+                                        Hapus
+                                    </button>
+                                </form>
                             </div>
+                        </div>
+
+                        <div class="info-area">
+                            <p class="text-[8px] font-bold text-indigo-400 uppercase tracking-widest mb-2">
+                                {{ $buku->kategori->nama_kategori ?? 'Umum' }}
+                            </p>
+                            <h3 class="text-xs font-black text-white uppercase italic leading-snug tracking-wide">
+                                {{ Str::limit($buku->judul, 35) }}
+                            </h3>
+                            <p class="text-[9px] text-white/20 mt-1 font-medium uppercase tracking-tight">
+                                {{ $buku->penulis ?? 'Penulis Anonim' }}
+                            </p>
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
             @empty
-            <div class="py-32 border border-dashed border-white/10 rounded-[40px] text-center">
-                <p class="text-[9px] font-black text-white/10 uppercase tracking-[1.5em]">Belum Ada Koleksi Disini</p>
+            {{-- Jika Benar-benar Kosong --}}
+            <div class="py-40 text-center border border-dashed border-white/5 rounded-[40px]">
+                <p class="text-[9px] font-black text-white/20 uppercase tracking-[1em]">Belum ada buku yang disimpan</p>
             </div>
             @endforelse
         </div>
-
     </div>
 </div>
 
-<div id="controlModal" class="modal-overlay">
-    <div class="action-modal-content">
-        <div class="text-center mb-10">
-            <p id="modalBukuTitle" class="text-2xl font-black text-white uppercase italic tracking-tighter"></p>
-            <p class="text-[7px] text-white/20 uppercase tracking-[0.4em] mt-2">Pilihan_Aksi_Buku</p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-            <a id="modalEditLink" href="#" class="opt-btn-hex">
-                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-width="2"/></svg>
-                <span>Edit Data</span>
-            </a>
-
-            <form id="modalDeleteForm" method="POST" action="" class="w-full">
-                @csrf @method('DELETE')
-                <button type="submit" class="opt-btn-hex w-full hover:bg-red-600" onclick="return confirm('Apakah kamu yakin ingin menghapus buku ini?')">
-                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2"/></svg>
-                    <span>Hapus</span>
-                </button>
-            </form>
-        </div>
-        
-        <button onclick="closeControlModal()" class="w-full mt-8 text-[8px] font-black text-white/20 uppercase tracking-[0.5em] hover:text-white transition-colors">Batalkan</button>
-    </div>
-</div>
-
+{{-- JAVASCRIPT --}}
 <script>
-    const controlModal = document.getElementById('controlModal');
+    document.addEventListener('DOMContentLoaded', function() {
+        const controlModal = document.getElementById('controlModal');
+        const modalBukuTitle = document.getElementById('modalBukuTitle');
+        const modalEditLink = document.getElementById('modalEditLink');
+        const modalDeleteForm = document.getElementById('modalDeleteForm');
 
-    function openControlModal(editUrl, deleteUrl, title) {
-        document.getElementById('modalBukuTitle').innerText = title;
-        document.getElementById('modalEditLink').href = editUrl;
-        document.getElementById('modalDeleteForm').action = deleteUrl;
-        controlModal.classList.add('modal-visible');
-    }
+        document.addEventListener('click', function(e) {
+            const card = e.target.closest('.book-card');
+            if (card && !e.target.closest('a') && !e.target.closest('button')) {
+                const title = card.getAttribute('data-title');
+                const editUrl = card.getAttribute('data-edit-url');
+                const deleteUrl = card.getAttribute('data-delete-url');
 
-    function closeControlModal() {
-        controlModal.classList.remove('modal-visible');
-    }
+                modalBukuTitle.innerText = title;
+                modalEditLink.href = editUrl;
+                modalDeleteForm.action = deleteUrl;
 
-    window.onclick = function(e) {
-        if (e.target == controlModal) closeControlModal();
-    }
+                controlModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        window.closeControlModal = function() {
+            controlModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        controlModal.addEventListener('click', function(e) {
+            if (e.target === controlModal) closeControlModal();
+        });
+    });
 </script>
 @endsection

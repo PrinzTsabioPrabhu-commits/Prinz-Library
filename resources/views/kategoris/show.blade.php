@@ -68,7 +68,7 @@
     /* Header */
     .node-header { padding: 160px 0 100px 0; position: relative; }
     .big-title {
-        font-size: clamp(4rem, 10vw, 8.5rem);
+        font-size: clamp(3rem, 8vw, 6.5rem);
         font-weight: 950;
         line-height: 0.8;
         text-transform: uppercase;

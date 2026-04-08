@@ -1,120 +1,41 @@
-import { Form, Head } from '@inertiajs/react';
-import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
-import AuthLayout from '@/layouts/auth-layout';
-import { register } from '@/routes';
-import { store } from '@/routes/login';
-import { request } from '@/routes/password';
+import { SignIn } from "@clerk/clerk-react";
+import { Head } from "@inertiajs/react";
 
-type Props = {
-    status?: string;
-    canResetPassword: boolean;
-    canRegister: boolean;
-};
-
-export default function Login({
-    status,
-    canResetPassword,
-    canRegister,
-}: Props) {
+export default function Login() {
     return (
-        <AuthLayout
-            title="Log in to your account"
-            description="Enter your email and password below to log in"
-        >
-            <Head title="Log in" />
+        <div className="flex min-h-screen items-center justify-center bg-[#050505]">
+            <Head title="Login — E-Library" />
 
-            <Form
-                {...store.form()}
-                resetOnSuccess={['password']}
-                className="flex flex-col gap-6"
-            >
-                {({ processing, errors }) => (
-                    <>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    required
-                                    autoFocus
-                                    tabIndex={1}
-                                    autoComplete="email"
-                                    placeholder="email@example.com"
-                                />
-                                <InputError message={errors.email} />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm"
-                                            tabIndex={5}
-                                        >
-                                            Forgot password?
-                                        </TextLink>
-                                    )}
-                                </div>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    required
-                                    tabIndex={2}
-                                    autoComplete="current-password"
-                                    placeholder="Password"
-                                />
-                                <InputError message={errors.password} />
-                            </div>
-
-                            <div className="flex items-center space-x-3">
-                                <Checkbox
-                                    id="remember"
-                                    name="remember"
-                                    tabIndex={3}
-                                />
-                                <Label htmlFor="remember">Remember me</Label>
-                            </div>
-
-                            <Button
-                                type="submit"
-                                className="mt-4 w-full"
-                                tabIndex={4}
-                                disabled={processing}
-                                data-test="login-button"
-                            >
-                                {processing && <Spinner />}
-                                Log in
-                            </Button>
-                        </div>
-
-                        {canRegister && (
-                            <div className="text-center text-sm text-muted-foreground">
-                                Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
-                                    Sign up
-                                </TextLink>
-                            </div>
-                        )}
-                    </>
-                )}
-            </Form>
-
-            {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
-        </AuthLayout>
+            {/*
+             * fallbackRedirectUrl: setelah login Clerk → ke /auth/clerk/callback
+             * Callback page akan ambil token dan buat Laravel session,
+             * lalu redirect ke /beranda
+             */}
+            <SignIn
+                routing="path"
+                path="/login"
+                signUpUrl="/register"
+                fallbackRedirectUrl="/auth/clerk/callback"
+                appearance={{
+                    variables: {
+                        colorBackground:     '#0a0a0a',
+                        colorText:           '#ffffff',
+                        colorPrimary:        '#6366f1',
+                        colorInputBackground: 'rgba(255,255,255,0.03)',
+                        colorInputText:      '#ffffff',
+                        borderRadius:        '16px',
+                        fontFamily:          'Plus Jakarta Sans, sans-serif',
+                    },
+                    elements: {
+                        card:           'shadow-none bg-transparent border border-white/5 backdrop-blur-xl',
+                        headerTitle:    'text-white font-black',
+                        headerSubtitle: 'text-white/40',
+                        socialButtonsBlockButton: 'border-white/10 bg-white/5 hover:bg-white/10 text-white',
+                        formFieldInput: 'bg-white/5 border-white/10 text-white',
+                        footerActionLink: 'text-indigo-400 hover:text-white',
+                    },
+                }}
+            />
+        </div>
     );
 }

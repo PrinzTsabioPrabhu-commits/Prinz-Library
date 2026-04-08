@@ -1,32 +1,31 @@
+import './bootstrap';
+import '../css/app.css';
+
+import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import '../css/app.css';
-import { initializeTheme } from './hooks/use-appearance';
+import { ClerkProvider } from '@clerk/clerk-react'; // <-- Impor Clerk
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+// Ambil Key dari .env
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!PUBLISHABLE_KEY) {
+    throw new Error("Missing Publishable Key. Cek file .env kamu, Prinz!");
+}
 
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
-    resolve: (name) =>
-        resolvePageComponent(
-            `./pages/${name}.tsx`,
-            import.meta.glob('./pages/**/*.tsx'),
-        ),
+    title: (title) => `${title} - E-Library`,
+    resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup({ el, App, props }) {
         const root = createRoot(el);
 
         root.render(
-            <StrictMode>
+            <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
                 <App {...props} />
-            </StrictMode>,
+            </ClerkProvider>
         );
     },
     progress: {
         color: '#4B5563',
     },
 });
-
-// This will set light / dark mode on load...
-initializeTheme();
