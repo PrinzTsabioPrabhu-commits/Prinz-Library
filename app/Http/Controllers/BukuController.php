@@ -194,7 +194,7 @@ class BukuController extends Controller
      */
     public function show($id)
     {
-        $buku = Buku::with('kategori')->findOrFail($id);
+        $buku = Buku::with('kategori')->where('user_id', Auth::id())->findOrFail($id);
         return view('bukus.show', compact('buku'));
     }
 }

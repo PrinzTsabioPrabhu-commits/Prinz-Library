@@ -93,6 +93,8 @@
             display: inline-block;
             text-align: center;
             width: 100%;
+            border: none;
+            cursor: pointer;
         }
 
         .btn-premium:hover {
@@ -100,7 +102,12 @@
             box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
         }
 
-        /* REFINED INPUT SYSTEM */
+        .btn-premium:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .input-luxe {
             background: rgba(255, 255, 255, 0.015);
             border: 1px solid rgba(255, 255, 255, 0.03);
@@ -121,6 +128,11 @@
             box-shadow: 0 0 40px rgba(99, 102, 241, 0.15),
                         inset 0 0 10px rgba(255, 255, 255, 0.01);
             transform: translateY(-1px);
+        }
+
+        .input-luxe.input-error {
+            border-color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);
         }
 
         .input-luxe::placeholder {
@@ -148,6 +160,16 @@
             transform: translateX(4px);
         }
 
+        .error-msg {
+            font-size: 9px;
+            font-weight: 700;
+            color: #f87171;
+            margin-top: 0.5rem;
+            margin-left: 0.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0); }
             50% { transform: translateY(-10px) rotate(2deg); }
@@ -164,6 +186,32 @@
         .loaded .reveal-up {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .error-banner {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 20px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+        }
+        #loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
@@ -197,59 +245,110 @@
 
             <!-- Form Side -->
             <div class="p-16 lg:p-20 overflow-y-auto max-h-[90vh]">
-                <form action="{{ route('register.post') }}" method="POST" class="space-y-6">
+
+                {{-- Error Banner --}}
+                @if ($errors->any())
+                <div class="error-banner reveal-up" style="transition-delay: 300ms">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                            <span class="text-red-400 text-[10px] font-black">✕</span>
+                        </div>
+                        <span class="text-[9px] font-black uppercase tracking-[0.3em] text-red-400">Ada Kesalahan</span>
+                    </div>
+                    <ul class="space-y-1.5 ml-9">
+                        @foreach ($errors->all() as $error)
+                        <li class="text-[10px] text-red-300/80 leading-relaxed">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
+                <form id="register-form" action="{{ route('register.post') }}" method="POST" class="space-y-6">
                     @csrf
                     <div class="grid grid-cols-2 gap-6 reveal-up" style="transition-delay: 400ms">
                         <div class="space-y-1 group">
                             <label class="luxe-label">Nama Lengkap</label>
-                            <input type="text" name="name" required class="input-luxe" placeholder="NAMA">
+                            <input type="text" name="name" value="{{ old('name') }}" required class="input-luxe @error('name') input-error @enderror" placeholder="NAMA">
+                            @error('name')
+                            <p class="error-msg">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="space-y-1 group">
                             <label class="luxe-label">Username</label>
-                            <input type="text" name="username" required class="input-luxe" placeholder="USERNAME">
+                            <input type="text" name="username" value="{{ old('username') }}" required class="input-luxe @error('username') input-error @enderror" placeholder="USERNAME">
+                            @error('username')
+                            <p class="error-msg">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="space-y-1 group reveal-up" style="transition-delay: 500ms">
                         <label class="luxe-label">Alamat Email Kamu</label>
-                        <input type="email" name="email" required class="input-luxe" placeholder="EMAIL">
+                        <input type="email" name="email" value="{{ old('email') }}" required class="input-luxe @error('email') input-error @enderror" placeholder="EMAIL">
+                        @error('email')
+                        <p class="error-msg">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="grid grid-cols-2 gap-6 reveal-up" style="transition-delay: 600ms">
                         <div class="space-y-1 group relative">
                             <label class="luxe-label">Password</label>
-                            <input type="password" name="password" id="password" required class="input-luxe" placeholder="••••••••">
+                            <input type="password" name="password" id="password" required class="input-luxe @error('password') input-error @enderror" placeholder="MIN 8 KARAKTER">
                             <button type="button" onclick="togglePass('password', 'eye-1')" class="absolute right-4 top-[32px] text-white/20 hover:text-white transition-colors">
                                 <span id="eye-1-text" class="text-[8px] font-black uppercase tracking-widest leading-none">Show</span>
                             </button>
+                            @error('password')
+                            <p class="error-msg">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="space-y-1 group relative">
-                            <label class="luxe-label">confirm Password</label>
-                            <input type="password" name="password_confirmation" id="password_confirm" required class="input-luxe" placeholder="••••••••">
+                            <label class="luxe-label">Confirm Password</label>
+                            <input type="password" name="password_confirmation" id="password_confirm" required class="input-luxe" placeholder="ULANGI PASSWORD">
                             <button type="button" onclick="togglePass('password_confirm', 'eye-2')" class="absolute right-4 top-[32px] text-white/20 hover:text-white transition-colors">
                                 <span id="eye-2-text" class="text-[8px] font-black uppercase tracking-widest leading-none">Show</span>
                             </button>
                         </div>
                     </div>
 
+                    {{-- Password Strength Indicator --}}
+                    <div class="reveal-up" style="transition-delay: 650ms">
+                        <div class="flex items-center gap-3 px-2">
+                            <div class="flex gap-1 flex-1">
+                                <div id="str-1" class="h-[2px] flex-1 bg-white/5 rounded-full transition-all duration-500"></div>
+                                <div id="str-2" class="h-[2px] flex-1 bg-white/5 rounded-full transition-all duration-500"></div>
+                                <div id="str-3" class="h-[2px] flex-1 bg-white/5 rounded-full transition-all duration-500"></div>
+                                <div id="str-4" class="h-[2px] flex-1 bg-white/5 rounded-full transition-all duration-500"></div>
+                            </div>
+                            <span id="str-label" class="text-[7px] font-black uppercase tracking-[0.3em] text-white/10 transition-colors">—</span>
+                        </div>
+                    </div>
+
                     <div class="pt-6 reveal-up" style="transition-delay: 700ms">
-                        <button type="submit" class="btn-premium !rounded-3xl">Daftar Sekarang</button>
+                        <button type="submit" id="submit-btn" class="btn-premium !rounded-3xl">Daftar Sekarang</button>
                     </div>
 
                     <div class="pt-6 text-center reveal-up" style="transition-delay: 800ms">
-                        <a href="{{ route('login') }}" class="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 hover:text-indigo-400 transition-all duration-500">Already registered? <span class="text-white">Verify Entry</span></a>
+                        <a href="{{ route('login') }}" class="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 hover:text-indigo-400 transition-all duration-500">Sudah punya akun? <span class="text-white">Masuk Di Sini</span></a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
+    {{-- Loading Overlay --}}
+    <div id="loading-overlay">
+        <div class="text-center">
+            <div class="w-8 h-8 border-2 border-white/10 border-t-white rounded-full animate-spin mx-auto mb-6"></div>
+            <p class="text-white/30 text-[9px] font-bold uppercase tracking-[0.4em]">Membuat Identitas Baru...</p>
+        </div>
+    </div>
+
     <script>
-        window.addEventListener('load', () => { 
-            setTimeout(() => { 
-                document.body.classList.remove('opacity-0'); 
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.remove('opacity-0');
                 document.body.classList.add('loaded');
-            }, 100); 
+            }, 100);
         });
 
         function togglePass(inputId, iconId) {
@@ -263,6 +362,50 @@
                 iconText.textContent = "Show";
             }
         }
+
+        // Password Strength Meter
+        const passwordInput = document.getElementById('password');
+        passwordInput.addEventListener('input', function() {
+            const val = this.value;
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const bars = ['str-1', 'str-2', 'str-3', 'str-4'];
+            const colors = ['bg-red-500', 'bg-orange-400', 'bg-yellow-400', 'bg-green-500'];
+            const labels = ['Lemah', 'Cukup', 'Baik', 'Kuat'];
+            const labelColors = ['text-red-400', 'text-orange-400', 'text-yellow-400', 'text-green-400'];
+
+            bars.forEach((id, i) => {
+                const el = document.getElementById(id);
+                el.className = 'h-[2px] flex-1 rounded-full transition-all duration-500';
+                if (i < score) {
+                    el.classList.add(colors[score - 1]);
+                } else {
+                    el.classList.add('bg-white/5');
+                }
+            });
+
+            const label = document.getElementById('str-label');
+            if (score > 0) {
+                label.textContent = labels[score - 1];
+                label.className = 'text-[7px] font-black uppercase tracking-[0.3em] transition-colors ' + labelColors[score - 1];
+            } else {
+                label.textContent = '—';
+                label.className = 'text-[7px] font-black uppercase tracking-[0.3em] text-white/10 transition-colors';
+            }
+        });
+
+        // Form submission with loading
+        document.getElementById('register-form').addEventListener('submit', function() {
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.textContent = 'MEMPROSES...';
+            document.getElementById('loading-overlay').classList.add('active');
+        });
     </script>
 </body>
+
 </html>

@@ -192,7 +192,7 @@
     </header>
 
     <div class="grid lg:grid-cols-2 gap-14">
-        @foreach($kategoris as $index => $kategori)
+        @forelse($kategoris as $index => $kategori)
         <div class="koleksi-card group reveal-card {{ $kategori->bukus->count() == 0 ? 'card-empty' : '' }}" style="animation-delay: {{ $index * 0.2 }}s">
 
             <span class="absolute top-8 right-12 text-[6px] font-black text-white/5 uppercase tracking-[1em] group-hover:text-indigo-500/20 transition-colors">
@@ -251,7 +251,7 @@
                     </svg>
                 </div>
                 <p class="text-[9px] text-white/20 uppercase tracking-[0.4em] mb-8 italic">Belum ada jejak di sudut ini.</p>
-                <a href="{{ route('bukus.create', ['kategori_id' => $kategori->id]) }}" class="btn-tambah-soft">
+                <a href="{{ route('bukus.create') }}" class="btn-tambah-soft">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path d="M12 4v16m8-8H4" stroke-width="3" />
                     </svg>
@@ -268,7 +268,67 @@
                 </a>
             </div>
         </div>
-        @endforeach
+        @empty
+        <div class="koleksi-card card-empty reveal-card">
+            <span class="absolute top-8 right-12 text-[6px] font-black text-white/5 uppercase tracking-[1em]">Ref.00</span>
+            <div class="text-center py-20 px-10">
+                <div class="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-10">
+                    <svg class="w-6 h-6 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="1.5" />
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-black text-white italic uppercase tracking-tighter mb-4">Ruang Hampa</h3>
+                <p class="text-[9px] text-white/20 uppercase tracking-[0.4em] mb-10 leading-relaxed">
+                    Belum ada kategori yang dikoleksi.<br>Buat struktur bacaanmu sendiri sekarang.
+                </p>
+                <a href="{{ route('bukus.create') }}" class="btn-tambah-soft inline-flex">
+                    Sematkan Karya Pertama
+                </a>
+            </div>
+        </div>
+        @endforelse
+    </div>
+
+    {{-- Global Discovery Archives --}}
+    @if(count($apiCategories) > 0)
+    <div class="mt-40">
+        <div class="flex items-center gap-6 mb-20 animate-pulse">
+            <div class="h-[1px] w-20 bg-indigo-500/30"></div>
+            <h2 class="text-[11px] font-black uppercase tracking-[1.2em] text-white/30 italic">Global Discovery Mode</h2>
+            <div class="h-[1px] flex-grow bg-white/5"></div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-14 opacity-60 hover:opacity-100 transition-opacity duration-1000">
+            @foreach($apiCategories as $item)
+            <div class="koleksi-card group border-dashed border-indigo-500/20 hover:border-indigo-500/40">
+                <div class="flex justify-between items-start mb-12">
+                    <div>
+                        <div class="flex items-center gap-3 mb-5 opacity-40">
+                            <span class="text-[8px] font-black text-indigo-400 uppercase tracking-[0.5em]">Global Archives</span>
+                        </div>
+                        <h3 class="text-4xl font-black text-white italic uppercase tracking-tighter">{{ $item['name'] }}</h3>
+                    </div>
+                    @if($item['sample_thumb'])
+                    <img src="{{ $item['sample_thumb'] }}" class="w-16 h-20 rounded-xl object-cover grayscale opacity-30 group-hover:opacity-60 transition-all duration-700">
+                    @endif
+                </div>
+                
+                <p class="text-[10px] text-white/20 uppercase tracking-[0.1em] leading-relaxed mb-10 line-clamp-3">
+                    {{ $item['description'] }}
+                </p>
+
+                <div class="flex justify-between items-center border-t border-white/5 pt-8">
+                    <span class="text-[8px] font-black text-white/10 uppercase tracking-[0.3em]">{{ $item['totalItems'] }} Volumes Detected</span>
+                    <a href="{{ route('reader', $item['google_id'] ?? '') }}" class="text-[9px] font-black text-indigo-400 uppercase tracking-[0.3em] hover:tracking-[0.5em] transition-all">
+                        Eksplorasi →
+                    </a>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
     </div>
 
     <footer class="footer-premium mt-32 py-16 flex flex-col md:flex-row justify-between items-center gap-8 cursor-default relative">
