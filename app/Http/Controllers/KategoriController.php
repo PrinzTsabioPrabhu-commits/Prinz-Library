@@ -27,23 +27,47 @@ class KategoriController extends Controller
             
             $apiKey = config('services.google_books.key') ?? 'AIzaSyAlbY4ey6mjpkNYnIFvEIRNDkRnk6fLyrk';
             $tempApiData = [];
+            $rateLimited = false;
 
             foreach ($subjects as $subject) {
+                // Jika sudah kena rate limit, skip sisanya
+                if ($rateLimited) {
+                    $tempApiData[] = [
+                        'name'         => $subject,
+                        'google_id'    => null,
+                        'totalItems'   => 0,
+                        'sample_thumb' => null,
+                        'description'  => 'Data sedang tidak tersedia.',
+                    ];
+                    continue;
+                }
+
                 try {
-                    // Pakai timeout lebih pendek biar gak nunggu kelamaan kalau internet down
-                    $response = Http::timeout(5)->get('https://www.googleapis.com/books/v1/volumes', [
+                    $response = Http::connectTimeout(2)->timeout(3)->get('https://www.googleapis.com/books/v1/volumes', [
                         'q'            => "subject:{$subject}",
                         'maxResults'   => 1,
                         'key'          => $apiKey,
-                        'printType'    => 'books', // Pastikan yang ditarik adalah buku, bukan majalah
+                        'printType'    => 'books',
                         'langRestrict' => 'en',
                     ]);
+
+                    // Deteksi rate limit
+                    if ($response->status() === 429) {
+                        $rateLimited = true;
+                        $tempApiData[] = [
+                            'name'         => $subject,
+                            'google_id'    => null,
+                            'totalItems'   => 0,
+                            'sample_thumb' => null,
+                            'description'  => 'API limit tercapai.',
+                        ];
+                        continue;
+                    }
 
                     if ($response->successful() && isset($response->json()['items'][0])) {
                         $item = $response->json()['items'][0];
                         $volumeInfo = $item['volumeInfo'];
                         
-                        // Fix Thumbnail ke HTTPS secara otomatis
                         $thumb = $volumeInfo['imageLinks']['thumbnail'] ?? null;
                         if ($thumb) {
                             $thumb = str_replace('http://', 'https://', $thumb);
@@ -51,14 +75,20 @@ class KategoriController extends Controller
 
                         $tempApiData[] = [
                             'name'         => $subject,
-                            'google_id'    => $item['id'], // Simpan ID Volume asli Google
+                            'google_id'    => $item['id'],
                             'totalItems'   => $response->json()['totalItems'] ?? 0,
                             'sample_thumb' => $thumb,
                             'description'  => $volumeInfo['description'] ?? 'No description available for this category.',
                         ];
                     }
                 } catch (\Exception $e) {
-                    // Logger bisa ditaruh di sini kalau mau trace error
+                    $tempApiData[] = [
+                        'name'         => $subject,
+                        'google_id'    => null,
+                        'totalItems'   => 0,
+                        'sample_thumb' => null,
+                        'description'  => 'Gagal memuat data.',
+                    ];
                     continue; 
                 }
             }

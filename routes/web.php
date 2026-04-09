@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
     Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('kategoris.show');
 
-    // Profile Management
+    // Profile Management (Blade)
     Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
 

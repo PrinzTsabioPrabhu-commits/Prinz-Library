@@ -133,7 +133,7 @@
             @endphp
 
             <div class="explore-card group reveal" style="animation-delay: {{ 0.3 + ($index * 0.1) }}s">
-                <a href="{{ route('bukus.read', $bookId) }}" class="block space-y-8">
+                <a href="{{ route('reader', $bookId) }}" class="block space-y-8">
 
                     <div class="img-wrapper aspect-[3/4]">
                         <img src="{{ str_replace('http://', 'https://', $cover) }}"

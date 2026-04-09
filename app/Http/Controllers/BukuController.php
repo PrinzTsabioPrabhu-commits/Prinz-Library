@@ -125,16 +125,13 @@ class BukuController extends Controller
             'penulis'      => 'required|max:255',
             'penerbit'     => 'required|max:255',
             'tahun_terbit' => 'required|numeric|digits:4',
-            'kategori'     => 'required',
+            'kategori_id'  => 'required',
             'google_id'    => 'nullable|string',
             'image_url'    => 'nullable|url',
             'deskripsi'    => 'nullable',
         ]);
 
         $buku = Buku::where('user_id', Auth::id())->findOrFail($id);
-
-        // Map kategori field ke kategori_id database
-        $validated['kategori_id'] = $request->kategori;
 
         $buku->update($validated);
 
