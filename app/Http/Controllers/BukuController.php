@@ -79,7 +79,7 @@ class BukuController extends Controller
             'tahun_terbit' => 'required|integer|min:1000|max:9999',
             // Sesuaikan dengan nama di form & database agar tidak tertukar
             'kategori_id'  => 'required',
-            'google_id'    => 'required|string',
+            'google_id'    => 'nullable|string',
             'image_url'    => 'nullable|url',
             'deskripsi'    => 'nullable|string',
             'stok'         => 'nullable|integer', // Tambahkan ini karena ada di fillable kamu

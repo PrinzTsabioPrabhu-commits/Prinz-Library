@@ -249,6 +249,24 @@
         </aside>
 
         <main class="luxury-main">
+            {{-- Validation Errors --}}
+            @if ($errors->any())
+                <div class="mb-12 p-8 bg-red-600/10 border border-red-600/20 rounded-[30px] reader-reveal">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                        <span class="text-[10px] font-black uppercase tracking-[0.5em] text-red-500 italic">Data Entry Invalid</span>
+                    </div>
+                    <ul class="space-y-3">
+                        @foreach ($errors->all() as $error)
+                            <li class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest text-white/50">
+                                <span class="w-1 h-1 rounded-full bg-white/10"></span>
+                                {{ $error }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form id="mainForm" action="{{ route('bukus.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="image_url" id="image_url">
@@ -286,7 +304,7 @@
                         </div>
                         
                         <div id="optionsPanel" class="absolute w-full p-4 max-h-[300px] overflow-y-auto custom-scroll">
-                            @foreach($kategori as $index => $kat)
+                            @forelse($kategori as $index => $kat)
                                 <div class="option-item group" onclick="selectOption('{{ $kat->nama_kategori }}', '{{ $kat->id }}', '{{ $index + 1 }}')">
                                     <div class="flex items-center gap-4">
                                         <span class="text-[9px] font-mono opacity-20 group-hover:text-indigo-400 group-hover:opacity-100 transition-all">0{{ $index + 1 }}</span>
@@ -294,7 +312,12 @@
                                     </div>
                                     <div class="w-1 h-1 rounded-full bg-white/5 group-hover:bg-indigo-500 group-hover:scale-[3] transition-all"></div>
                                 </div>
-                            @endforeach
+                            @empty
+                                <div class="py-12 text-center group">
+                                    <p class="text-[9px] font-black text-white/10 uppercase tracking-[0.5em] group-hover:text-red-500/40 transition-colors">Data Kosong</p>
+                                    <p class="text-[7px] text-white/5 uppercase tracking-[0.3em] mt-2 italic">Jalankan Seeder Kategori Terlebih Dahulu</p>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>

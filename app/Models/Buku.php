@@ -18,6 +18,7 @@ class Buku extends Model
         'deskripsi', 
         'stok', 
         'image_url',
+        'google_id',
         'user_id'
     ];
 
