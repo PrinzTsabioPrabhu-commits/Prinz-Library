@@ -23,7 +23,11 @@ class KategoriSeeder extends Seeder
             ['nama_kategori' => 'Energy Source'],
         ];
 
+        $user = \App\Models\User::first();
+        $userId = $user ? $user->id : null;
+
         foreach ($data as $val) {
+            $val['user_id'] = $userId;
             \App\Models\Kategori::create($val);
         }
     }

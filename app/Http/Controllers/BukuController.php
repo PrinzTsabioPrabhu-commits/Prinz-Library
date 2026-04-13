@@ -61,8 +61,10 @@ class BukuController extends Controller
      */
     public function create()
     {
-        // Mengambil semua kategori yang baru saja kita seed
-        $kategori = Kategori::all();
+        // Mengambil semua kategori (Global + Milik User)
+        $kategori = Kategori::where('user_id', Auth::id())
+            ->orWhereNull('user_id')
+            ->get();
 
         return view('bukus.create', compact('kategori'));
     }
@@ -110,7 +112,7 @@ class BukuController extends Controller
     $buku = Buku::where('user_id', Auth::id())->findOrFail($id);
 
     // 2. AMBIL SEMUA KATEGORI (Ini yang bikin error kalau nggak ada)
-    $kategoris = Kategori::all(); 
+    $kategoris = Kategori::where('user_id', Auth::id())->orWhereNull('user_id')->get(); 
 
     // 3. Kirim SEMUA variabel ke view edit
     return view('bukus.edit', compact('buku', 'kategoris'));

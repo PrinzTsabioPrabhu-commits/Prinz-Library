@@ -10,7 +10,7 @@ class Kategori extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_kategori']; // Sesuaikan dengan kolom tabel kamu
+    protected $fillable = ['nama_kategori', 'user_id']; // Sesuaikan dengan kolom tabel kamu
 
     /**
      * Relasi: Satu Kategori punya Banyak Buku (One to Many)

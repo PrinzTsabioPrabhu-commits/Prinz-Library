@@ -186,7 +186,7 @@
 
                                 <div id="optionsPanel" class="absolute z-50 w-full p-2">
                                     <div class="max-h-[280px] overflow-y-auto custom-scrollbar">
-                                        @foreach($kategoris as $index => $kat)
+                                        @forelse($kategoris as $index => $kat)
                                             <div class="option-item flex items-center justify-between p-5 cursor-pointer"
                                                 onclick="selectOption('{{ $kat->nama_kategori }}', '{{ $kat->id }}', '{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}')">
                                                 <span class="text-[10px] font-black tracking-widest uppercase">
@@ -195,7 +195,12 @@
                                                 </span>
                                                 <div class="w-1.5 h-1.5 rounded-full bg-indigo-500/0 group-hover:bg-indigo-500 transition-all"></div>
                                             </div>
-                                        @endforeach
+                                        @empty
+                                            <div class="py-12 text-center group">
+                                                <p class="text-[9px] font-black text-white/10 uppercase tracking-[0.5em] group-hover:text-red-500/40 transition-colors">Data Kosong</p>
+                                                <p class="text-[7px] text-white/5 uppercase tracking-[0.3em] mt-2 italic">Jalankan Seeder Kategori Terlebih Dahulu</p>
+                                            </div>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
