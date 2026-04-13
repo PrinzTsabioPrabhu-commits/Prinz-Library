@@ -8,6 +8,7 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,4 +104,14 @@ Route::middleware('auth')->group(function () {
 
         return view('reader', ['id' => $google_id, 'buku' => $buku]);
     })->name('reader');
+});
+
+// EMERGENCY RESCUE ROUTE - Hapus setelah berhasil!
+Route::get('/rescue-migrate', function () {
+    try {
+        Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
+        return "Database Berhasil di-RESET dan di-SEED di Laravel Cloud!";
+    } catch (\Exception $e) {
+        return "Gagal: " . $e->getMessage();
+    }
 });
