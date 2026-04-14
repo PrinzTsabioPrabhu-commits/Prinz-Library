@@ -91,7 +91,10 @@
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.05);
         color: rgba(255, 255, 255, 0.4);
-        font-[9px] font-black uppercase tracking-[0.3em];
+        font-size: 9px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
         transition: all 0.5s ease;
     }
 
@@ -193,7 +196,7 @@
 
     <div class="grid lg:grid-cols-2 gap-14">
         @forelse($kategoris as $index => $kategori)
-        <div class="koleksi-card group reveal-card {{ $kategori->bukus->count() == 0 ? 'card-empty' : '' }}" style="animation-delay: {{ $index * 0.2 }}s">
+        <div class="koleksi-card group reveal-card {{ $kategori->bukus->count() == 0 ? 'card-empty' : '' }}" style="animation-delay: {{ $index * 0.2 }}s;">
 
             <span class="absolute top-8 right-12 text-[6px] font-black text-white/5 uppercase tracking-[1em] group-hover:text-indigo-500/20 transition-colors">
                 Ref.0{{ $index + 1 }}

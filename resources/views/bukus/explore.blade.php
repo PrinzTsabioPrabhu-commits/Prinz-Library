@@ -132,7 +132,7 @@
             $cover = $info['imageLinks']['thumbnail'] ?? 'https://via.placeholder.com/600x900/0a0a0a/ffffff?text=NO_COVER';
             @endphp
 
-            <div class="explore-card group reveal" style="animation-delay: {{ 0.3 + ($index * 0.1) }}s">
+            <div class="explore-card group reveal" style="animation-delay: {{ 0.3 + ($index * 0.1) }}s;">
                 <a href="{{ route('reader', $bookId) }}" class="block space-y-8">
 
                     <div class="img-wrapper aspect-[3/4]">
