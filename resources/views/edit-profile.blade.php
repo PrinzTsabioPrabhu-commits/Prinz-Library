@@ -277,13 +277,14 @@
                         <span class="text-[10px] font-black uppercase tracking-[0.05em]">Simpan Perubahan Profil</span>
                     </button>
                 </div>
+            </form>
                 {{-- MODAL --}}
                 <div id="statusModal" class="modal-luxe-status" data-success="{{ session('success') }}" data-error="{{ $errors->first() }}">
                     <div class="modal-content-luxe">
                         <div id="modalIconBox" class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-10 border"></div>
                         <h3 id="modalTitle" class="text-3xl font-black mb-4 uppercase tracking-tighter italic text-white"></h3>
                         <p id="modalDesc" class="text-[11px] text-white/30 uppercase tracking-[0.3em] leading-loose mb-12 italic"></p>
-                        <button onclick="closeModal()" class="w-full btn-premium">Mengerti</button>
+                        <button type="button" onclick="closeModal()" class="w-full btn-premium">Mengerti</button>
                     </div>
                 </div>
 
