@@ -106,17 +106,19 @@ class BukuController extends Controller
     /**
      * 5. Menampilkan Form EDIT Buku
      */
-   public function edit($id)
-{
-    // 1. Ambil data buku berdasarkan ID dan user yang login
-    $buku = Buku::where('user_id', Auth::id())->findOrFail($id);
+    public function edit($id)
+    {
+        // 1. Ambil data buku berdasarkan ID dan user yang login
+        $buku = Buku::where('user_id', Auth::id())->findOrFail($id);
 
-    // 2. AMBIL SEMUA KATEGORI (Ini yang bikin error kalau nggak ada)
-    $kategoris = Kategori::where('user_id', Auth::id())->orWhereNull('user_id')->get(); 
+        // 2. AMBIL SEMUA KATEGORI (Ini yang bikin error kalau nggak ada)
+        $kategoris = Kategori::where('user_id', Auth::id())
+            ->orWhereNull('user_id')
+            ->get();
 
-    // 3. Kirim SEMUA variabel ke view edit
-    return view('bukus.edit', compact('buku', 'kategoris'));
-}
+        // 3. Kirim SEMUA variabel ke view edit
+        return view('bukus.edit', compact('buku', 'kategoris'));
+    }
     /**
      * 6. Mengupdate Data Buku
      */

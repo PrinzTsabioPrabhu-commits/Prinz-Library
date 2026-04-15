@@ -296,6 +296,7 @@
 
                 <div class="input-wrapper">
                     <label class="label-reader">Kategori Koleksi</label>
+                    
                     <div class="relative" id="customSelect">
                         <input type="hidden" name="kategori_id" id="kategori_value" required>
                         <div class="input-reader flex justify-between items-center cursor-pointer" id="selectTrigger">
