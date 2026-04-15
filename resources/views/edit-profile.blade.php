@@ -247,7 +247,11 @@
                         <label class="luxe-label group-hover:text-white/60 transition-colors">Foto Profil Baru</label>
                         <div class="flex items-center gap-8">
                             <div id="previewContainer" class="{{ Auth::user()->profile_photo_path ? '' : 'hidden' }} photo-preview-box">
-                                <img id="imagePreview" src="{{ Auth::user()->profile_photo_path ? asset('storage/'.Auth::user()->profile_photo_path) : '' }}" class="w-full h-full object-cover">
+                                @php
+                                    $photoPath = Auth::user()->profile_photo_path;
+                                    $photoUrl = $photoPath ? (Str::startsWith($photoPath, ['http://', 'https://']) ? $photoPath : asset('storage/' . $photoPath)) : '';
+                                @endphp
+                                <img id="imagePreview" src="{{ $photoUrl }}" class="w-full h-full object-cover">
                                 <button type="button" onclick="removePhoto()" class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                                     <span class="text-[8px] font-black text-red-500 italic">HAPUS</span>
                                 </button>
