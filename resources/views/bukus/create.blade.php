@@ -305,7 +305,7 @@
                         </div>
                         
                         <div id="optionsPanel" class="absolute w-full p-4 max-h-[300px] overflow-y-auto custom-scroll">
-                            @forelse($kategori as $index => $kat)
+                            @forelse($kategoris as $index => $kat)
                                 <div class="option-item group" onclick="selectOption('{{ $kat->nama_kategori }}', '{{ $kat->id }}', '{{ $index + 1 }}')">
                                     <div class="flex items-center gap-4">
                                         <span class="text-[9px] font-mono opacity-20 group-hover:text-indigo-400 group-hover:opacity-100 transition-all">0{{ $index + 1 }}</span>

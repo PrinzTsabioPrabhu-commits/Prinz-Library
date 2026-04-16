@@ -62,11 +62,11 @@ class BukuController extends Controller
     public function create()
     {
         // Mengambil semua kategori (Global + Milik User)
-        $kategori = Kategori::where('user_id', Auth::id())
+        $kategoris = Kategori::where('user_id', Auth::id())
             ->orWhereNull('user_id')
             ->get();
 
-        return view('bukus.create', compact('kategori'));
+        return view('bukus.create', compact('kategoris'));
     }
 
     /**

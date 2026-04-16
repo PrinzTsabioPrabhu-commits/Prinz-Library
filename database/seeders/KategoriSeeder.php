@@ -43,9 +43,10 @@ class KategoriSeeder extends Seeder
 
         foreach ($data as $val) {
             // Nganggo updateOrCreate ben ra duplikat nek dijalankan ping pindho
+            // Set user_id dadi null ben dadi kategori global (bisa dinggo kabeh user)
             Kategori::updateOrCreate(
                 ['nama_kategori' => $val['nama_kategori']],
-                ['user_id' => $userId]
+                ['user_id' => null]
             );
         }
     }
